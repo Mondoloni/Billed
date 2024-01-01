@@ -17,13 +17,31 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     e.preventDefault()
+    //On liste les extensions autorisées
+    const allowedExtensions = ['jpg', 'jpeg', 'png']
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
+    
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
     formData.append('file', file)
     formData.append('email', email)
+    //On récupère l'index du dernier "."
+    const lastDotIndex  = fileName.lastIndexOf('.');
+    //On récupère la chaine de caractère après l'index récupéré precedement
+    //dans la string fileName
+    const fileExtension=fileName.substring(lastDotIndex + 1)
+    //On vérifie si la chaine de caractère est bien présente dans la liste ds extensions autorisées
+    const isFileExtensionAllowed = allowedExtensions.includes(fileExtension)
+    
+    //Si l'extension n'est pas autorisée, on affiche un message d'erreur et on vide l'input
+    if(isFileExtensionAllowed === false){
+    e.target.setCustomValidity("Formats acceptés : jpg, jpeg et png")
+    e.target.reportValidity()
+    e.target.value = null
+      return 
+    }
 
     this.store
       .bills()
