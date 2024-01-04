@@ -34,7 +34,8 @@ export default class NewBill {
     const fileExtension=fileName.substring(lastDotIndex + 1)
     //On vérifie si la chaine de caractère est bien présente dans la liste ds extensions autorisées
     const isFileExtensionAllowed = allowedExtensions.includes(fileExtension)
-    
+    // console.log(isFileExtensionAllowed)
+    console.log(fileName)
     //Si l'extension n'est pas autorisée, on affiche un message d'erreur et on vide l'input
     if(isFileExtensionAllowed === false){
     e.target.setCustomValidity("Formats acceptés : jpg, jpeg et png")
