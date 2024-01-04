@@ -20,8 +20,11 @@ export default class NewBill {
     //On liste les extensions autorisées
     const allowedExtensions = ['jpg', 'jpeg', 'png']
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
+    // const filePath = e.target.value.split(/\\/g)
+    
+    // const fileName = filePath[filePath.length-1]
+    const fileName = file.name
+
     
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
@@ -34,8 +37,6 @@ export default class NewBill {
     const fileExtension=fileName.substring(lastDotIndex + 1)
     //On vérifie si la chaine de caractère est bien présente dans la liste ds extensions autorisées
     const isFileExtensionAllowed = allowedExtensions.includes(fileExtension)
-    // console.log(isFileExtensionAllowed)
-    console.log(fileName)
     //Si l'extension n'est pas autorisée, on affiche un message d'erreur et on vide l'input
     if(isFileExtensionAllowed === false){
     e.target.setCustomValidity("Formats acceptés : jpg, jpeg et png")
@@ -53,7 +54,6 @@ export default class NewBill {
         }
       })
       .then(({fileUrl, key}) => {
-        console.log(fileUrl)
         this.billId = key
         this.fileUrl = fileUrl
         this.fileName = fileName
@@ -61,7 +61,7 @@ export default class NewBill {
   }
   handleSubmit = e => {
     e.preventDefault()
-    console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
+    // console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
     const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
       email,
