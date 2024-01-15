@@ -1,8 +1,8 @@
-import VerticalLayout from './VerticalLayout.js'
+/* eslint-disable linebreak-style */
+/* eslint-disable import/extensions */
+import VerticalLayout from './VerticalLayout.js';
 
-export default () => {
-
-  return (`
+export default () => (`
     <div class='layout'>
       ${VerticalLayout(120)}
       <div class='content'>
@@ -70,5 +70,4 @@ export default () => {
         </div>
       </div>
     </div>
-  `)
-}
+  `);

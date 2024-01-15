@@ -1,11 +1,12 @@
-import VerticalLayout from './VerticalLayout.js'
-import ErrorPage from "./ErrorPage.js"
-import LoadingPage from "./LoadingPage.js"
+/* eslint-disable linebreak-style */
+/* eslint-disable import/extensions */
+import VerticalLayout from './VerticalLayout.js';
+import ErrorPage from './ErrorPage.js';
+import LoadingPage from './LoadingPage.js';
 
-import Actions from './Actions.js'
+import Actions from './Actions.js';
 
-const row = (bill) => {
-  return (`
+const row = (bill) => (`
     <tr>
       <td>${bill.type}</td>
       <td>${bill.name}</td>
@@ -16,21 +17,17 @@ const row = (bill) => {
         ${Actions(bill.fileUrl)}
       </td>
     </tr>
-    `)
-  }
+    `);
 
-const rows = (data) => {
-  if(data && data.length)
-  {
-    const antiChrono = (a, b) => b.date.localeCompare(a.date)
-    const dates = [...data].sort(antiChrono)
-    return dates.map(bill => row(bill)).join("")
-  }
-  else
-  {
-    return ""
-  }
-}
+const rows = (data) => (data && data.length
+  ? data
+    .sort((a, b) => new Date(b.date) - new Date(a.date)) // TODO 2
+    .map((bill) => row({
+      ...bill,
+      date: bill.date,
+    }))
+    .join('')
+  : '');
 
 export default ({ data: bills, loading, error }) => {
   const modal = () => (`
@@ -48,14 +45,14 @@ export default ({ data: bills, loading, error }) => {
         </div>
       </div>
     </div>
-  `)
+  `);
 
   if (loading) {
-    return LoadingPage()
-  } else if (error) {
-    return ErrorPage(error)
+    return LoadingPage();
+  } if (error) {
+    return ErrorPage(error);
   }
-  
+
   return (`
     <div class='layout'>
       ${VerticalLayout(120)}
@@ -84,5 +81,5 @@ export default ({ data: bills, loading, error }) => {
       </div>
       ${modal()}
     </div>`
-  )
-}
+  );
+};
