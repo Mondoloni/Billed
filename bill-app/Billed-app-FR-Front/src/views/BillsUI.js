@@ -21,13 +21,14 @@ const row = (bill) => (`
 
 const rows = (data) => (data && data.length
   ? data
-    .sort((a, b) => new Date(b.date) - new Date(a.date)) // TODO 2
-    .map((bill) => row({
+    .sort((a, b) => new Date(b.date) - new Date(a.date)) // On trie le tableau en fonction de la date par ordre decroissant
+    .map((bill) => row({//On map les éléments du tableau avec la fonction row()
       ...bill,
       date: bill.date,
     }))
-    .join('')
-  : '');
+    .join('')//On concatène les éléments du tableau dans une chaine de caratères
+  : ''// si data est null, undefined, ou a une longueur de zéro alors on retourne ""
+  );
 
 export default ({ data: bills, loading, error }) => {
   const modal = () => (`

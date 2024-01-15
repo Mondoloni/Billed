@@ -41,6 +41,7 @@ export default class Login {
     e.preventDefault()
     const user = {
       type: "Admin",
+      //Récupération des champs email et password du login Admin et non employé
       email: e.target.querySelector(`input[data-testid="admin-email-input"]`).value,
       password: e.target.querySelector(`input[data-testid="admin-password-input"]`).value,
       status: "connected"

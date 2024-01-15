@@ -22,6 +22,7 @@ import Bills from '../containers/Bills.js';
 
 jest.mock('../app/store', () => mockStore);
 
+//Avant chaque test on initialise localStorage et le user connecté
 beforeAll(() => {
   Object.defineProperty(window, 'localStorage', { value: localStorageMock });
   window.localStorage.setItem(
@@ -45,6 +46,7 @@ describe('Given I am connected as an employee', () => {
       await waitFor(() => screen.getByTestId('icon-window'));
       const windowIcon = screen.getByTestId('icon-window');
       // to-do write expect expression
+      //On verifie si l'objet windowIcon a bien la classe active-icon
       expect(windowIcon.classList.contains('active-icon')).toBe(true);
     });
     test('Then bills should be ordered from earliest to latest', () => {
@@ -90,13 +92,15 @@ describe('Given I am connected as an employee', () => {
       const btnNewBill = screen.getByTestId('btn-new-bill');
 
       expect(btnNewBill.classList.contains('btn-primary')).toBe(true);
-
+      //On simule le click sur le bouton nouvelle note de frais
       btnNewBill.addEventListener('click', handleClickNewBill1);
 
       userEvent.click(btnNewBill);
+      //Verifier que la fonction handleClickNewBill() a bien été appellé
       expect(handleClickNewBill1).toHaveBeenCalled();
 
       await waitFor(() => screen.getAllByText('Envoyer une note de frais'));
+      //Verifier l'affichage du texte "Envoyer une note de frais" dans la nouvelle page affichée
       expect(screen.getAllByText('Envoyer une note de frais')).toBeTruthy();
     });
   });
@@ -111,6 +115,7 @@ describe('Given I am connected as an employee', () => {
       });
       $.fn.modal = jest.fn();
       document.body.innerHTML = BillsUI({ data: bills });
+      //Récupérer les elements du DOM avec l'attribut data-testid ="icon-eye"
       const elements = screen.getAllByTestId('icon-eye');
       // Itérer à travers les éléments pour trouver celui avec l'attribut data-bill-url spécifique
       let foundElement;
@@ -124,12 +129,16 @@ describe('Given I am connected as an employee', () => {
       expect(foundElement).toBeDefined();
 
       const handleClickIconEye1 = jest.fn((e) => Nbill.handleClickIconEye(foundElement));
+      //On simule le click sur l'élément trouver precedement
       foundElement.addEventListener('click', handleClickIconEye1);
       userEvent.click(foundElement);
+      //Verifier que la fonction handleClickIconEye a bien été appelé
       expect(handleClickIconEye1).toHaveBeenCalled();
-
+      //Récupération de l'objet avec l'attribut alt "Bill"
       const img = screen.getByAltText('Bill');
+      //Verifier que l'objet est bien dans le DOM
       expect(img).toBeInTheDocument();
+      //Verifier que le chemin de l'objet corespond
       expect(img).toHaveAttribute('src', 'https://test.storage.tld/v0/b/billable-677b6.a…61.jpeg?alt=media&token=7685cd61-c112-42bc-9929-8a799bb82d8b');
     });
   });
@@ -150,8 +159,11 @@ describe('Given I am connected as an employee', () => {
       mockStore.bills().list();
 
       await waitFor(() => {
+        //Verifier que la methode a été appelé une fois
         expect(dataMocked).toHaveBeenCalledTimes(1);
+        //Verifier que le nombre d'éléments <tr> du tableau est égal à 4
         expect(document.querySelectorAll('tbody tr').length).toBe(4);
+        //Vérifier que le texte "Mes notes de frais" est présent dans le DOM
         expect(screen.findByText('Mes notes de frais')).toBeTruthy();
       });
     });

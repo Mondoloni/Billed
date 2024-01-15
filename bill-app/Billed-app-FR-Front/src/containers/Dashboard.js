@@ -146,6 +146,7 @@ export default class {
       this.counter ++
     }
 
+    //On ajoute la methode "off" pour supprimer les gestionnaires d'événements click
     bills.forEach(bill => {
       $(`#open-bill${bill.id}`).off("click").click((e) => this.handleEditTicket(e, bill, bills))
     })
